@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reborn AI</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="loginContainer">
+  <input type="password" id="passwordInput" placeholder="Insira a password">
+  <button id="loginBtn">Entrar</button>
+  <div id="loginError" style="color:red;"></div>
+</div>
+
+<div id="mainContent" style="display:none;">
+  <audio id="bgMusic" src="reborninstru.mp3" autoplay loop></audio>
+  <button id="toggleMusic">Mute/Som</button>
+
+  <div id="slideshow">
+    <img src="Webcraft.png" class="slide active">
+    <img src="Sms e whatsapp.png" class="slide">
+    <img src="Ebooks.png" class="slide">
+    <img src="Email.png" class="slide">
+    <img src="marketing.png" class="slide">
+    <img src="Leads e sms.png" class="slide">
+    <img src="Logoreborn.png" class="slide">
+  </div>
+
+  <div id="stripeButtons">
+    <button onclick="window.open('https://buy.stripe.com/cNi4gz1J36rA264gEt5Rm06','_blank')">Pro 69.99€ - Com APIs</button>
+    <button onclick="window.open('https://buy.stripe.com/eVqdR93RbaHQ4ecbk95Rm00','_blank')">Basic 9.99€</button>
+    <button onclick="window.open('https://buy.stripe.com/5kQfZhbjDeY66mk87X5Rm07','_blank')">Enterprise Pro</button>
+  </div>
+
+  <div id="chatContainer">
+    <div id="chatOutput"></div>
+    <input type="text" id="chatInput" placeholder="Pergunta ao Reborn AI...">
+    <button id="sendBtn">Enviar</button>
+  </div>
+</div>
+
+<script>
+const correctPassword = "reborn";
+
+document.getElementById("loginBtn").addEventListener("click", ()=>{
+  const val = document.getElementById("passwordInput").value;
+  if(val === correctPassword){
+    document.getElementById("loginContainer").style.display="none";
+    document.getElementById("mainContent").style.display="block";
+  } else {
+    document.getElementById("loginError").innerText="Password incorreta!";
+  }
+});
+
+const music = document.getElementById("bgMusic");
+document.getElementById("toggleMusic").addEventListener("click", ()=>{
+  music.paused ? music.play() : music.pause();
+});
+
+let currentSlide = 0;
+const slides = document.querySelectorAll(".slide");
+setInterval(()=>{
+  slides[currentSlide].classList.remove("active");
+  currentSlide = (currentSlide+1)%slides.length;
+  slides[currentSlide].classList.add("active");
+}, 4000);
+
+async function sendChat() {
+  const input = document.getElementById("chatInput").value;
+  if(!input) return;
+  const outputBox = document.getElementById("chatOutput");
+  outputBox.innerHTML += `<div><strong>Você:</strong> ${input}</div>`;
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ input })
+    });
+    const data = await res.json();
+    outputBox.innerHTML += `<div><strong>Bot:</strong> ${data.reply}</div>`;
+  } catch(e) {
+    outputBox.innerHTML += `<div><strong>Bot:</strong> Sem resposta no momento.</div>`;
+  }
+
+  outputBox.scrollTop = outputBox.scrollHeight;
+  document.getElementById("chatInput").value="";
+}
+
+document.getElementById("sendBtn").addEventListener("click", sendChat);
+document.getElementById("chatInput").addEventListener("keydown", function(e){
+  if(e.key==="Enter") sendChat();
+});
+</script>
+</body>
+</html>
