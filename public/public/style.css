@@ -1,0 +1,14 @@
+body{font-family:Arial,sans-serif;background:#f0f0f0;margin:0;padding:0;}
+#loginContainer{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;}
+#passwordInput{padding:10px;margin:5px;width:200px;}
+#loginBtn{padding:10px 20px;cursor:pointer;}
+#slideshow{width:80%;margin:auto;position:relative;overflow:hidden;margin-top:20px;}
+#slideshow img{width:100%;display:none;border-radius:10px;}
+#slideshow img.active{display:block;}
+#stripeButtons{display:flex;justify-content:center;gap:10px;margin:20px 0;}
+#stripeButtons button{padding:10px 20px;font-weight:bold;cursor:pointer;}
+#chatContainer{width:80%;max-width:600px;margin:auto;border:1px solid #ccc;padding:10px;border-radius:10px;background:#fff;}
+#chatOutput{height:200px;overflow-y:auto;border:1px solid #eee;padding:10px;margin-bottom:10px;background:#fafafa;}
+#chatInput{width:calc(100% - 60px);padding:10px;}
+#sendBtn{width:50px;padding:10px;}
+#toggleMusic{margin:10px;}
